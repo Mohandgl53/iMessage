@@ -6,6 +6,7 @@ import cors from "cors";
 import "dotenv/config";
 import { connectDB } from "./lib/db.js";
 import { clerkMiddleware } from '@clerk/express'
+import job from "./lib/cron.js";
 
 dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
