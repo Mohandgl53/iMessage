@@ -7,6 +7,7 @@ import "dotenv/config";
 import { connectDB } from "./lib/db.js";
 import { clerkMiddleware } from '@clerk/express'
 import job from "./lib/cron.js";
+import clerkWebhook from "./webhooks/clerk.webhook.js";
 
 dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
@@ -16,6 +17,8 @@ const PORT = process.env.PORT || 3001;
 const FRONTEND_URL = process.env.FRONTEND_URL;
 
 const publicDir = path.join(process.cwd(), "public");
+
+app.use("/api/webhooks/clerk", express.raw({type: "application/json"}), clerkWebhook);
 
 app.use(express.json());
 app.use(cors({
