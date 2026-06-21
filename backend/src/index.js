@@ -8,6 +8,8 @@ import { connectDB } from "./lib/db.js";
 import { clerkMiddleware } from '@clerk/express'
 import job from "./lib/cron.js";
 import clerkWebhook from "./webhooks/clerk.webhook.js";
+import  authRoutes from "./routes/auth.route.js";
+
 
 dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
@@ -26,6 +28,8 @@ app.use(cors({
   credentials: true
 }));
 app.use(clerkMiddleware());
+
+app.use("/api/auth", authRoutes);
 
 app.get("/health", (req, res) => {
   res.status(200).json({ ok: true });
