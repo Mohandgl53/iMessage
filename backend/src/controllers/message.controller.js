@@ -60,7 +60,7 @@ export async function getMessages(req, res) {
                 {senderId: myId, receiverId: userToChatId},
                 {senderId: userToChatId, receiverId: myId}
             ]
-        }).sort({createAt:1})
+        }).sort({ createdAt: 1 })
 
         res.status(200).json(messages);
     } catch (error) {
@@ -85,7 +85,7 @@ export async function sendMessage(req, res) {
 
             const url = await uploadChatMedia(req.file);
 
-            if(req.file.mimetype.startWith("video/")) videoUrl = url;
+            if (req.file.mimetype.startsWith("video/")) videoUrl = url;
             else imageUrl = url;
         }
 
