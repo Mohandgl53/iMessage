@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import Message from "../models/Message.js";
 import { hasImageKitConfig, uploadChatMedia } from "../lib/imagekit.js";
+import { getReceiverSocketId } from "../lib/socket.js";
 
 //This is used to fetch the all users data execpt ours(Accound Owner) for the sidebar in the message app.
 // where we can select the user to message them individually.
@@ -99,7 +100,11 @@ export async function sendMessage(req, res) {
 
         await newMessage.save();
 
-        //todo: realtime with socketio
+        const receiverSocketId = getReceiverSocketId(receiverId);
+
+        if(receiverSocketId){
+            io.to(receiverSocketId).emit("now matcn")
+        }
 
         res.status(201).json(newMessage);
     } catch (error) {
